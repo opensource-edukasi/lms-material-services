@@ -1,1 +1,1 @@
-# lms-material-services
+# lms-material-service
