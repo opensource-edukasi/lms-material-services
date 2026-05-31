@@ -49,6 +49,13 @@ var migrations = []darwin.Migration{
 			);
 		`,
 	},
+	{
+		Version:     4,
+		Description: "Make topic_subject_id optional",
+		Script: `
+			ALTER TABLE materials ALTER COLUMN topic_subject_id DROP NOT NULL;
+		`,
+	},
 }
 
 // Migrate attempts to bring the schema for db up to date with the migrations
