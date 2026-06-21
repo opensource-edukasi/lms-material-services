@@ -1,0 +1,86 @@
+syntax = "proto3";
+package materials;
+
+option go_package = "lms-material-service/pb/materials;materials";
+
+import "generic/generic_message.proto";
+
+message Material {
+    string id = 1;
+    string subject_class_id = 2;
+    string topic_subject_id = 3;
+    string type = 4;
+    string file_type = 5;
+    string name = 6;
+    string storage_id = 7;
+    string source = 8;
+    string updated_by = 9;
+    string updated_at = 10;
+    string created_at = 11;
+}
+
+message MaterialList {
+    repeated Material materials = 1;
+    uint32 count = 2;
+}
+
+message MaterialListInput {
+    lms_material_services.Pagination pagination = 1;
+    string subject_class_id = 2;
+}
+
+message MaterialInput {
+    string subject_class_id = 1;
+    string topic_subject_id = 2;
+    string type = 3;
+    string file_type = 4;
+    string name = 5;
+    string storage_id = 6;
+    string source = 7;
+}
+
+message StudentMaterial {
+    string id = 1;
+    string material_id = 2;
+    string student_id = 3;
+    bool is_downloaded = 4;
+    int32 progress_downloaded = 5;
+    string created_at = 6;
+    string updated_by = 7;
+}
+
+message StudentMaterialList {
+    repeated StudentMaterial student_materials = 1;
+    uint32 count = 2;
+}
+
+message StudentMaterialListInput {
+    lms_material_services.Pagination pagination = 1;
+    string material_id = 2;
+}
+
+message StudentMaterialInput {
+    string material_id = 1;
+    string student_id = 2;
+}
+
+message UpdateProgressInput {
+    string id = 1;
+    bool is_downloaded = 2;
+    int32 progress_downloaded = 3;
+}
+
+service MaterialService {
+    rpc List(MaterialListInput) returns (MaterialList);
+    rpc Get(lms_material_services.Id) returns (Material);
+    rpc Create(MaterialInput) returns (Material);
+    rpc Update(Material) returns (Material);
+    rpc Delete(lms_material_services.Id) returns (lms_material_services.BoolMessage);
+}
+
+service StudentMaterialService {
+    rpc List(StudentMaterialListInput) returns (StudentMaterialList);
+    rpc Create(StudentMaterialInput) returns (StudentMaterial);
+    rpc UpdateProgress(UpdateProgressInput) returns (StudentMaterial);
+    rpc Delete(lms_material_services.Id) returns (lms_material_services.BoolMessage);
+}
